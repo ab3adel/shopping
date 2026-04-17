@@ -10,10 +10,18 @@ export class OrderEventController {
     constructor(
         private readonly orderService:OrderService
     ) {}
-    @EventPattern('Payment.Succeeded')
-   async updateOrderStatus(@Payload() payment:Payment){
+
+   @EventPattern('Payment.Succeeded')
+   async updateSuccessfullOrderStatus(@Payload() payment:Payment){
     console.log('payment succeeded',payment)
-    await this.orderService.updateOrder(payment.orderId)
+    await this.orderService.updateSuccessfullOrder(payment.orderId)
+
+    }
+
+    @EventPattern('Payment.Failed')
+   async updateFailedOrderStatus(@Payload() payment:Payment){
+    console.log('payment succeeded',payment)
+    await this.orderService.updateFailedOrder(payment.orderId)
 
     }
 

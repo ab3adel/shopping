@@ -36,8 +36,15 @@ export class OrderService {
   }
 
 
- async updateOrder(@Payload() order_id:string){
+ async updateSuccessfullOrder(@Payload() order_id:string){
   const result = await this.orderRepository.update({id:order_id},{status:OrderStatusEnum.CREATED})
+  if (result.affected=== 0){
+    throw new NotFoundException(`order ${order_id} was not updated `)
+  }
+ }
+
+ async updateFailedOrder(@Payload() order_id:string){
+  const result = await this.orderRepository.update({id:order_id},{status:OrderStatusEnum.CANCELLED})
   if (result.affected=== 0){
     throw new NotFoundException(`order ${order_id} was not updated `)
   }
