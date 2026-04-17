@@ -1,7 +1,7 @@
 
 export class CreatePaymentDto {
     
-    orderId!:string 
+    id!:string 
     userId!:string 
     userName!:string 
     product!:string 

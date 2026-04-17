@@ -25,7 +25,7 @@ export class PaymentService {
     const payment = new Payment()
     payment.id=uuid
     payment.count=createPaymentDto.count
-    payment.orderId=createPaymentDto.orderId
+    payment.orderId=createPaymentDto.id
     payment.price=createPaymentDto.price
     payment.product=createPaymentDto.product
     payment.userId=createPaymentDto.userId
