@@ -29,8 +29,14 @@ export class PaymentService {
     payment.userId=createPaymentDto.userId
     payment.userName=createPaymentDto.userName 
     payment.totalCoast=createPaymentDto.price + ( 0.15 * createPaymentDto.price)
-    const saved_payment = await this.paymentRepository.save(payment)
-    this.messageBroker.emit('Payment.Succeeded',saved_payment)
+    try{
+
+      const saved_payment = await this.paymentRepository.save(payment)
+      this.messageBroker.emit('Payment.Succeeded',saved_payment)
+    }
+    catch(err){
+      console.log('error in payment',this.messageBroker.emit('Payment.Failed',payment))
+    }
 
 
   }
