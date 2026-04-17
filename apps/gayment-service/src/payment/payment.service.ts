@@ -6,6 +6,7 @@ import { Payment } from './entities/payment.entity';
 import { Repository } from 'typeorm';
 import { MESSAGE_BROKER } from '../constant';
 import { ClientProxy } from '@nestjs/microservices';
+import { PaymentStatusEnum } from './payment.enum';
 
 @Injectable()
 export class PaymentService {
@@ -28,6 +29,7 @@ export class PaymentService {
     payment.product=createPaymentDto.product
     payment.userId=createPaymentDto.userId
     payment.userName=createPaymentDto.userName 
+    //payment.status=PaymentStatusEnum.SUCCEEDED
     payment.totalCoast=createPaymentDto.price + ( 0.15 * createPaymentDto.price)
     try{
 
@@ -35,7 +37,8 @@ export class PaymentService {
       this.messageBroker.emit('Payment.Succeeded',saved_payment)
     }
     catch(err){
-      console.log('error in payment',this.messageBroker.emit('Payment.Failed',payment))
+      console.log('error in payment',err)
+      this.messageBroker.emit('Payment.Failed',payment)
     }
 
 

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { InventoryServiceController } from './inventory-service.controller';
 import { InventoryServiceService } from './inventory-service.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { InventoryModule } from './inventory/inventory.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           autoLoadEntities:true,
           synchronize:true
     
-        })
+        }),
+     InventoryModule
   ],
   controllers: [InventoryServiceController],
   providers: [InventoryServiceService],
