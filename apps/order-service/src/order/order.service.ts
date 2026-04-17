@@ -7,6 +7,7 @@ import { DataSource, Repository } from 'typeorm';
 import { OrderStatusEnum } from '../enums/OrderStatus.enum';
 import { MESSAGE_BROKER } from '../constants/constant';
 import { ClientProxy, EventPattern, Payload } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class OrderService {
@@ -28,7 +29,7 @@ export class OrderService {
     order.userId=createOrderDto.userId
     order.price=createOrderDto.price
     const saved_order =await this.orderRepository.save(order)
-    this.brokerService.emit('Order.Placed',saved_order)
+    await lastValueFrom(this.brokerService.emit('Order.Placed',saved_order))
   }
 
   async findAll() {

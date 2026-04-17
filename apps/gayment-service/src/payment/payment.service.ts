@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { MESSAGE_BROKER } from '../constant';
 import { ClientProxy } from '@nestjs/microservices';
 import { PaymentStatusEnum } from './payment.enum';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class PaymentService {
@@ -34,11 +35,11 @@ export class PaymentService {
     try{
 
       const saved_payment = await this.paymentRepository.save(payment)
-      this.messageBroker.emit('Payment.Succeeded',saved_payment)
+      await lastValueFrom (this.messageBroker.emit('Payment.Succeeded',saved_payment))
     }
     catch(err){
       console.log('error in payment',err)
-      this.messageBroker.emit('Payment.Failed',payment)
+      await lastValueFrom(this.messageBroker.emit('Payment.Failed',payment))
     }
 
 
