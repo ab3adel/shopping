@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { PaymentController } from './payment.controller';
-import { ClientsModule } from '@nestjs/microservices';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MESSAGE_BROKER } from '../constant';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Payment } from './entities/payment.entity';
@@ -15,6 +15,7 @@ import { PaymentHttpController } from './payment.http-controller';
     ClientsModule.register([{
 
       name:MESSAGE_BROKER,
+      transport:Transport.NATS,
       options:{
         servers:process.env.NATS_URL
       }
