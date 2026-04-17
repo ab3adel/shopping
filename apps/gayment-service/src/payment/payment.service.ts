@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { UpdatePaymentDto, updatePaymentFailedDto } from './dto/update-payment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Payment } from './entities/payment.entity';
 import { Repository } from 'typeorm';
@@ -30,7 +30,8 @@ export class PaymentService {
     payment.product=createPaymentDto.product
     payment.userId=createPaymentDto.userId
     payment.userName=createPaymentDto.userName 
-    //payment.status=PaymentStatusEnum.SUCCEEDED
+    payment.productId=createPaymentDto.productId
+    payment.status=PaymentStatusEnum.SUCCEEDED
     payment.totalCoast=createPaymentDto.price + ( 0.15 * createPaymentDto.price)
     try{
 
@@ -43,6 +44,11 @@ export class PaymentService {
     }
 
 
+  }
+
+  async updatePaymentFailed(body:updatePaymentFailedDto){
+
+    return await this.paymentRepository.preload({id:body.paymentId,status:PaymentStatusEnum.FAILED})
   }
 
   findAll() {

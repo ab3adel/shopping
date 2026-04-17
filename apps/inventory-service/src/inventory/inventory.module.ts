@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Inventory } from './entities/inventory.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MESSAGE_BROKER } from '../constants';
+import { InventoryEventController } from './inventory.event-controller';
 
 @Module({
-  controllers: [InventoryController],
+  controllers: [InventoryController,InventoryEventController],
   providers: [InventoryService],
   imports : [
     TypeOrmModule.forFeature([Inventory]),

@@ -7,4 +7,5 @@ export class CreatePaymentDto {
     product!:string 
     price!:number
     count!:number 
+    productId!:string
 }

@@ -4,22 +4,16 @@ import { EventPattern, Payload } from '@nestjs/microservices';
 import { Payment } from 'apps/gayment-service/src/payment/entities/payment.entity';
 import { InsertProductDto } from './dto/insert-product.dto';
 
-@Controller('inventory')
-export class InventoryController {
+@Controller()
+export class InventoryEventController {
   constructor(private readonly inventoryService: InventoryService) {}
 
 
+@EventPattern("Inventory.Succeeded")
+async updateInventory(@Payload() payment:Payment){
 
-  @Get()
-  getAll(){
-    return this.inventoryService.getAll()
-  }
-
- @Post()
- async create(@Body() insertProduct:InsertProductDto){
-
-   return await this.inventoryService.insertProduct(insertProduct) 
-  }
+    return await this.inventoryService.updateProduct(payment)
+}
 
   
 }

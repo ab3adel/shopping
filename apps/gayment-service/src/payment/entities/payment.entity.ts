@@ -24,7 +24,10 @@ export class Payment {
     userName!:string 
 
     @Column()
-    product!:string 
+    product!:string
+    
+    @Column()
+    productId!:string
 
     @Column()
     count!:number 

@@ -28,6 +28,7 @@ export class OrderService {
     order.userName=createOrderDto.userName
     order.userId=createOrderDto.userId
     order.price=createOrderDto.price
+    order.productId=createOrderDto.productId
     const saved_order =await this.orderRepository.save(order)
     await lastValueFrom(this.brokerService.emit('Order.Placed',saved_order))
   }

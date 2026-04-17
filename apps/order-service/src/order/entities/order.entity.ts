@@ -10,6 +10,9 @@ export class Order {
 
     @Column()
     product!:string
+    
+    @Column()
+    productId!:string
 
     @Column({type:'enum',enum:OrderStatusEnum})
     status!:OrderStatusEnum

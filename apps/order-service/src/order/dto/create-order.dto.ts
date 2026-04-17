@@ -6,4 +6,5 @@ export class CreateOrderDto {
         userId!:string 
         userName!:string
         price!:number
+        productId!:string
 }
