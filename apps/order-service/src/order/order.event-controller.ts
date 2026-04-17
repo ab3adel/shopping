@@ -20,7 +20,7 @@ export class OrderEventController {
 
     @EventPattern('Payment.Failed')
    async updateFailedOrderStatus(@Payload() payment:Payment){
-    console.log('payment succeeded',payment)
+    console.log('payment failed',payment)
     await this.orderService.updateFailedOrder(payment.orderId)
 
     }
