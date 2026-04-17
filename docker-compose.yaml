@@ -3,7 +3,7 @@ version: "3.8"
 services:
   order-service:
     ports: 
-      - '3001/3001'
+      - '3001:3001'
     build:
       context: .
       dockerfile: ./Dockerfile
