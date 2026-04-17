@@ -2,6 +2,8 @@ version: "3.8"
 
 services:
   order-service:
+    ports: 
+      - '3001/3001'
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -66,6 +68,8 @@ services:
       - POSTGRES_DB=gayment-service
 
   inventory-service:
+    ports: 
+      - "3002:3002"
     build:
       context: .
       dockerfile: ./Dockerfile
