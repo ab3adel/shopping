@@ -5,11 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Outbox } from './entities/outbox.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MESSAGE_BROKER } from '../constants/constant';
+import { OutboxProcessor } from './outbox.processor';
 
 @Module({
   controllers: [OutboxController],
   exports:[OutboxService],
-  providers: [OutboxService],
+  providers: [OutboxService,OutboxProcessor],
   imports:[
     TypeOrmModule.forFeature([Outbox]),
     ClientsModule.register([
