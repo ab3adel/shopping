@@ -16,7 +16,8 @@ export class Outbox {
     payload!:Record<string,any>
 
     @Column()
-    target:string
+    target!:string
+
     @CreateDateColumn()
     createdAt!:Date
 
