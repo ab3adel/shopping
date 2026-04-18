@@ -61,7 +61,7 @@ constructor(
     product.count -= body.count;
 
     const saved = await this.inventoryRepository.save(product);
-
+   console.log('inventory succeeded')
     await lastValueFrom(
       this.messageBroker.emit('Inventory.Succeeded', {
         productId: body.productId,

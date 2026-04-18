@@ -9,9 +9,9 @@ export class InventoryEventController {
   constructor(private readonly inventoryService: InventoryService) {}
 
 
-@EventPattern("Inventory.Succeeded")
+@EventPattern("Payment.Succeeded")
 async updateInventory(@Payload() payment:Payment){
-
+   console.log("start inventory processing")
     return await this.inventoryService.updateProduct(payment)
 }
 

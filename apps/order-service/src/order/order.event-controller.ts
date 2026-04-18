@@ -21,7 +21,7 @@ export class OrderEventController {
     
     @EventPattern("Inventory.Failed")
    async updateInventoryFailedOrderStatus(@Payload() payment:UpdateOrderStatusDto){
-    console.log('order failed',payment)
+    console.log('order failed from inventory',payment)
     await this.orderService.updateFailedOrder(payment.orderId)
 
     }
