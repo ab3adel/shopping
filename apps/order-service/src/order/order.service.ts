@@ -8,12 +8,14 @@ import { OrderStatusEnum } from '../enums/OrderStatus.enum';
 import { MESSAGE_BROKER } from '../constants/constant';
 import { ClientProxy, EventPattern, Payload } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
+import { Outbox } from '../outbox/entities/outbox.entity';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository :Repository<Order>,
+    private readonly dataSource:DataSource,
     @Inject(MESSAGE_BROKER)
     private readonly brokerService:ClientProxy
   ){}
@@ -29,8 +31,32 @@ export class OrderService {
     order.userId=createOrderDto.userId
     order.price=createOrderDto.price
     order.productId=createOrderDto.productId
-    const saved_order =await this.orderRepository.save(order)
-    await lastValueFrom(this.brokerService.emit('Order.Placed',saved_order))
+     const queryRunner = this.dataSource.createQueryRunner()
+      await queryRunner.connect()
+      await queryRunner.startTransaction()
+
+      const orderRepo = queryRunner.manager.getRepository(Order)
+      const outboxRepo = queryRunner.manager.getRepository(Outbox)
+    try {
+     const saved_order =await orderRepo.save(order)
+     await outboxRepo.save({
+      type:'Order.Placed',
+      payload:saved_order,
+      target:'Order'
+     })
+
+     await queryRunner.commitTransaction()
+
+    }
+    catch(err){
+      queryRunner.rollbackTransaction()
+      throw err
+    }
+    finally{
+      queryRunner.release()
+    }
+    
+    //await lastValueFrom(this.brokerService.emit('Order.Placed',saved_order))
   }
 
   async findAll() {

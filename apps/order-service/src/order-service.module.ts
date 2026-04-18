@@ -3,6 +3,7 @@ import { OrderServiceController } from './order-service.controller';
 import { OrderServiceService } from './order-service.service';
 import { OrderModule } from './order/order.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { OutboxModule } from './outbox/outbox.module';
 
 @Module({
   imports: [OrderModule,
@@ -16,7 +17,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities:true,
       synchronize:true
 
-    })
+    }),
+    OutboxModule
   ],
   controllers: [OrderServiceController],
   providers: [OrderServiceService],
