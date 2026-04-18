@@ -42,7 +42,8 @@ export class OrderService {
      await outboxRepo.save({
       type:'Order.Placed',
       payload:saved_order,
-      target:'Order'
+      target:'Order',
+      id:uuid
      })
 
      await queryRunner.commitTransaction()
